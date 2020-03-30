@@ -1,5 +1,7 @@
 <?php 
+	include('db.php');
 
+	/*
 	// parametros SOAP
 	$wsdl = "http://test.analitica.com.co/AZDigital_Pruebas/WebServices/ServiciosAZDigital.wsdl";
 	$endpoint = "http://test.analitica.com.co/AZDigital_Pruebas/WebServices/SOAP/index.php";
@@ -24,6 +26,7 @@
 	} catch(Exception $e){
 		echo $e->getMessage();
 	}
+	*/
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,8 +37,20 @@
 <div class="container" id="main-content">
 	<h2>Buscador de archivos</h2>
 	<p>Bienvenido</p>
+	<form action="ejemplo.php">
+		<p>
+			<input name="buscarArchivos" type="submit" value="Buscar Archivos">
+		</p>
+		<p>
+			<input name="reporteArchivos" type="submit" value="Reporte Archivos">
+		</p>
+		<p>
+			<input name="reporteResumen" type="submit" value="Reporte Resumen">
+		</p>
+	</form>
 	<p>
 		<?php
+			/*
 			echo "inicio";
 			// cargar plantillas			
 			$plantillaSOAP = new DOMDocument();
@@ -84,6 +99,7 @@
 			echo $strsql;
 
 			echo "fin";
+			*/
 
 			//var_dump($rtaBuscarArchivo);
 			/*
