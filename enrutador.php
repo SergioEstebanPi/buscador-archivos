@@ -29,23 +29,16 @@
 					;
 				";
 				// resultado de la consulta
-				$result2 = mysqli_query($db, $strsql) or die('Error querying database.');;
-				$row2 = mysqli_fetch_array($result2);
-
-				/*
-				while ($row2 = mysqli_fetch_array($result2)) {
-				 	echo $row2['id'] . ' ' . $row2['codigo'] . $row2['nombre'] . $row2['extension'] . '<br />';
-				}
-				*/
+				$result1 = mysqli_query($db, $strsql) or die('Error querying database.');
 
 				$dom = new DOMDocument('1.0', 'utf-8');
 				$root = $dom->createElement('archivos');
-				while ($row2 = mysqli_fetch_array($result2)) {
+				while ($row1 = mysqli_fetch_array($result1)) {
 					$archivo = $dom->createElement('archivo');
-					$id = $dom->createElement('id', $row2['id']);
-					$codigo = $dom->createElement('codigo', $row2['codigo']); 
-					$nombre = $dom->createElement('nombre', $row2['nombre']); 
-					$extension = $dom->createElement('extension', $row2['extension']); 
+					$id = $dom->createElement('id', $row1['id']);
+					$codigo = $dom->createElement('codigo', $row1['codigo']); 
+					$nombre = $dom->createElement('nombre', $row1['nombre']); 
+					$extension = $dom->createElement('extension', $row1['extension']); 
 
 					$archivo->appendChild($id);
 					$archivo->appendChild($codigo);
@@ -56,9 +49,6 @@
 				 	//echo $row2['id'] . ' ' . $row2['codigo'] . $row2['nombre'] . $row2['extension'] . '<br />';
 				}
 				$dom->appendChild($root);
-				//echo "salida" . html_entity_decode($dom->save("reportearchivos.xml"));
-
-				//$datosreporte = $dom->saveXML();
 
 				$plantillaReporteA = new DOMDocument();
 				$plantillaReporteA->load("ReporteArchivos.xsl");
@@ -73,11 +63,50 @@
 				break;
 			case 'reporteResumen':
 				//echo "reporteResumen " . $accion;
-				$strsql = "SELECT * FROM tipos";
+				$strsql = "
+					SELECT nvl(ti.nombre, 'NO tiene') nombre,
+				    	count(*) cantidad
+				    from archivos ar
+				    left join tipos ti
+				    on ar.id_tipo = ti.id
+				    group by ti.nombre
+				    ;
+				";
+				// resultado de la consulta
+				$result2 = mysqli_query($db, $strsql) or die('Error querying database.');
+
+				$dom = new DOMDocument('1.0', 'utf-8');
+				$root = $dom->createElement('resumenarchivos');
+				while ($row2 = mysqli_fetch_array($result2)) {
+					$tipo = $dom->createElement('tipo');
+					$nombre = $dom->createElement('nombre', $row2['nombre']); 
+					$cantidad = $dom->createElement('cantidad', $row2['cantidad']); 
+
+					$tipo->appendChild($nombre);
+					$tipo->appendChild($cantidad);
+					$root->appendChild($tipo);
+
+				 	//echo $row2['id'] . ' ' . $row2['codigo'] . $row2['nombre'] . $row2['extension'] . '<br />';
+				}
+				$dom->appendChild($root);
+				//echo "salida" . html_entity_decode($dom->save("reportearchivos.xml"));
+
+				//$datosreporte = $dom->saveXML();
+
+				$plantillaReporteR = new DOMDocument();
+				$plantillaReporteR->load("ReporteResumen.xsl");
+
+				$procesaReporteR = new XSLTProcessor();
+				$procesaReporteR->importStylesheet($plantillaReporteR);
+				$reporteGen = $procesaReporteR->transformToXML($dom);
+
+				echo $reporteGen;
+				// cierre de la conexion
+				mysqli_close($db);
 				break;
 			default:
 				//echo "opción incorrecta";
-				alert('debe elegir una opción válida');
+				echo '<script type="text/javascript">alert("Debe elegir una opción válida")</script>';
 				break;
 		}
 	}
