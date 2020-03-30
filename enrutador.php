@@ -53,11 +53,21 @@
 					$archivo->appendChild($extension);
 					$root->appendChild($archivo);
 
-				 	echo $row2['id'] . ' ' . $row2['codigo'] . $row2['nombre'] . $row2['extension'] . '<br />';
+				 	//echo $row2['id'] . ' ' . $row2['codigo'] . $row2['nombre'] . $row2['extension'] . '<br />';
 				}
 				$dom->appendChild($root);
-				echo "salida" . html_entity_decode($dom->save("new.xml"));
+				//echo "salida" . html_entity_decode($dom->save("reportearchivos.xml"));
 
+				//$datosreporte = $dom->saveXML();
+
+				$plantillaReporteA = new DOMDocument();
+				$plantillaReporteA->load("ReporteArchivos.xsl");
+
+				$procesaReporteA = new XSLTProcessor();
+				$procesaReporteA->importStylesheet($plantillaReporteA);
+				$reporteGen = $procesaReporteA->transformToXML($dom);
+
+				echo $reporteGen;
 				// cierre de la conexion
 				mysqli_close($db);
 				break;
