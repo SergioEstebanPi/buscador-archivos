@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0"?>
 <xsl:stylesheet version="1.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/"
-    xmlns:az="http://www.analitica.com.co/AZDigital/xsds/">
+    xmlns:az="http://www.analitica.com.co/AZDigital/xsds/" >
 <xsl:output method="xml" indent="yes" />
 
 <xsl:template match="az:RtaBuscarArchivo">

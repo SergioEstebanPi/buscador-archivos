@@ -15,5 +15,5 @@
 	 	echo $row['id'] . ' ' . $row['nombre'] .'<br />';
 	}
 	// cierre de la conexion
-	mysqli_close($db);	
+	//mysqli_close($db);	
 ?>
