@@ -61,7 +61,7 @@ class ClienteSoap {
 		$nuevoXML = new DOMDocument();
 		//$nuevoXML->load("BuscarArchivo.xml");
 		$nuevoXML->loadXML($this->soapClient->__getLastResponse());
-		//$nuevoXML->save("BuscarArchivo.xml");
+		$nuevoXML->save("BuscarArchivo.xml");
 		// transformar respuesta soap
 		$strSOAP = $procesaSOAP->transformToXML($nuevoXML);
 		//echo "strSOAP " . $strSOAP;
@@ -71,7 +71,7 @@ class ClienteSoap {
 
 		$soapTransformado = new DOMDocument();
 		$soapTransformado->loadXML($strSOAP);
-		//$soapTransformado->save("Ordenado.xml");
+		$soapTransformado->save("Ordenado.xml");
 
 		// cargar Ordenado.xml
 		$dataInsert = new DOMDocument();
@@ -82,8 +82,21 @@ class ClienteSoap {
 		// crear inserts para aplicar en la bd
 		$strsql = $procesadoInsert->transformToXML($dataInsert);
 
-		//echo "------------------------------------------INSERTAR ---------------------------\n";
-		//echo $strsql;
+		/*
+		echo "-------------\n";
+		echo $strsql;
+		echo "-------------\n";
+		*/
+		
+		/* 
+		$archivoinserts = new DOMDocument();
+		$strsql = str_replace('<?xml version="1.0"?>', '<?xml version="1.0" encoding="utf-8"?>', $strsql); 
+		$archivoinserts->loadXML($strsql);
+		$archivoinserts->save("inserts.xml");
+		*/
+
+		$strsql = str_replace('<?xml version="1.0" encoding="utf-8"?>', '', $strsql);
+
     	return $strsql;
     }
 

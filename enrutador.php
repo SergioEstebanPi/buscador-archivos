@@ -11,6 +11,10 @@
 				$clientesoap->consumirSoap();
 				//echo "insertar " . $clientesoap->obtenerInsertQuery();
 				$strsql = $clientesoap->obtenerInsertQuery();
+				echo $strsql;
+				$result0 = $db->multi_query($strsql) or die('Error querying database.');
+				echo $result0;
+				echo '<script type="text/javascript">alert("Registros descargados con éxito");</script>';
 				break;
 			case 'reporteArchivos':
 				//echo "reporteArchivos " . $accion;

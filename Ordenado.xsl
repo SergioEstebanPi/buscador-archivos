@@ -1,10 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0"
- xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
- <xsl:output method="text" indent="yes"/>
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    	xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/"
+>
+ <xsl:output method="xml" indent="yes" encoding="utf-8" />
 
 <xsl:template match="/">
    <xsl:for-each select="Ordenado/Archivos/Archivo">
-      <xsl:if test="Extension != '' and not(Extension=preceding-sibling::Archivo/Extension)">
+      <xsl:if test="Extension != 'null' and not(Extension=preceding-sibling::Archivo/Extension)">
          -- TIPOS
          insert into TIPOS (
             nombre
@@ -21,7 +25,7 @@
          "<xsl:value-of select="Id" />",
          "<xsl:value-of select="Nombre" />",
          <xsl:choose>
-            <xsl:when test="Extension != ''">
+            <xsl:when test="Extension != 'null'">
             (
                select id
                from TIPOS

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
@@ -7,9 +7,6 @@
 <xsl:output method="xml" indent="yes" />
 
 <xsl:template match="az:RtaBuscarArchivo">
-	<xsl:processing-instruction name="xml-stylesheet">
-		<xsl:text>type="text/xsl" href="Ordenado.xsl"</xsl:text>
-	</xsl:processing-instruction>
 	<Ordenado>
 		<Archivos>
 			<xsl:for-each select="Archivo">
@@ -24,7 +21,7 @@
 				        <xsl:call-template name="get-extension">
 				        	<xsl:with-param name="nombre" select="substring-after(@Nombre,'.')" />
 				        </xsl:call-template>			    		
-					</Extension>
+				</Extension>
 				</Archivo>
 			</xsl:for-each>
 		</Archivos>
@@ -38,7 +35,7 @@
 	        	<xsl:with-param name="nombre" select="substring-after(@Nombre,'.')" />
 	        </xsl:call-template>
 		</xsl:when>
-		<xsl:otherwise>null</xsl:otherwise>
+	    	<xsl:otherwise>null</xsl:otherwise>
 	</xsl:choose>
 </xsl:template>
 
