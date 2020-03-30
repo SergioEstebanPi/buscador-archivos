@@ -61,7 +61,7 @@ class ClienteSoap {
 		$nuevoXML = new DOMDocument();
 		//$nuevoXML->load("BuscarArchivo.xml");
 		$nuevoXML->loadXML($this->soapClient->__getLastResponse());
-		$nuevoXML->save("BuscarArchivo.xml");
+		//$nuevoXML->save("BuscarArchivo.xml");
 		// transformar respuesta soap
 		$strSOAP = $procesaSOAP->transformToXML($nuevoXML);
 		//echo "strSOAP " . $strSOAP;
@@ -71,7 +71,7 @@ class ClienteSoap {
 
 		$soapTransformado = new DOMDocument();
 		$soapTransformado->loadXML($strSOAP);
-		$soapTransformado->save("Ordenado.xml");
+		//$soapTransformado->save("Ordenado.xml");
 
 		// cargar Ordenado.xml
 		$dataInsert = new DOMDocument();

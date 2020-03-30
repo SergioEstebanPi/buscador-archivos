@@ -3,19 +3,35 @@
 	include('clientesoap.php');
 	
 	$accion = $_POST['submit'];
+
 	if(isset($accion)){
 		switch ($accion) {
 			case 'buscarArchivos':
+
 				//echo "buscarArchivos " . $accion;
 				$clientesoap = new ClienteSoap();
 				$clientesoap->consumirSoap();
 				//echo "insertar " . $clientesoap->obtenerInsertQuery();
-				$strsql = $clientesoap->obtenerInsertQuery();
-				echo $strsql;
+				$strsql = "
+					truncate table tipos;
+					truncate table archivos;
+				";
+				$strsql .= $clientesoap->obtenerInsertQuery();
+				//echo $strsql;
 				$result0 = $db->multi_query($strsql) or die('Error querying database.');
 				echo $result0;
-				echo '<script type="text/javascript">alert("Registros descargados con éxito");</script>';
+				if($result0){
+					echo '<script type="text/javascript">
+							alert("Registros descargados con éxito");
+							window.location.href = "index.php";
+						</script>';
+				} else {
+					echo '<script type="text/javascript">
+							alert("No se obtuvieron registros para mostrar");
+						</script>'; 
+				}
 				break;
+				mysqli_close($db);
 			case 'reporteArchivos':
 				//echo "reporteArchivos " . $accion;
 				$strsql = "
